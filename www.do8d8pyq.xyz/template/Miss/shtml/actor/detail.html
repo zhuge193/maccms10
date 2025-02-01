@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>{$obj.actor_name}个人资料_{$obj.actor_name}演过的电视剧_{$obj.actor_name}电影全集-{$maccms.site_name}</title>
+		<meta name="keywords" content="{$obj.actor_name}个人资料,{$obj.actor_name}演过的电视剧,{$obj.actor_name}电影全集,{$obj.actor_name}最新电影,{$obj.actor_name}最新电视剧">
+		<meta name="description" content="{$maccms.site_name}演示站为你收集了{$obj.actor_name}个人资料包括了{$obj.actor_name}最新演过的电视剧,{$obj.actor_name}电影全集,以及{$obj.actor_name}图片剧照最近动态等信息希望你能喜欢。">
+		{include file="system/include"}
+	</head>
+	<body class="relative">
+		{include file="system/header"}
+		<div class="sm:container mx-auto px-4  content-without-search pb-12">
+			<div class="flex justify-center items-center space-x-4 lg:space-x-6 mb-6 p-6 rounded-md bg-norddark hero-pattern">
+				<div class="overflow-hidden rounded-full w-24 h-24">
+					<img class="object-cover object-top w-full h-full lozad" data-src="{:mac_url_img($obj.actor_pic)}" src="{$GLOBALS['config']['madou']['lazy']}" onerror="javascript:this.src='{$GLOBALS['config']['madou']['lazy']}'" alt="{$obj.actor_name}">
+				</div>
+					<div class="font-medium text-lg leading-6">
+						<h4 class="text-nord6">{$obj.actor_name}</h4>
+						<div class="mt-2 text-sm xs:text-base text-nord9">
+							<p>
+								{$obj.actor_height|mac_default='未知'}cm
+								/
+								{$obj.actor_weight|mac_default='未知'}kg
+							</p>
+						</div>
+						<div>
+							<a class="mt-3 inline-flex items-center whitespace-nowrap px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white focus:outline-none bg-nord2 hover:bg-nord3">
+								<svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+									<path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+								</svg>
+								收藏
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="flex justify-between mb-6">
+				<div class="relative">
+					{maccms:vod actor="'.$obj['actor_name'].'" num="'.$GLOBALS['config']['madou']['typenum'].'" paging="yes" pageurl="actor/detail" order="desc" by="time"}{/maccms:vod}
+					<a class="text-nord6 group inline-flex items-center text-base leading-6 font-medium hover:text-primary focus:outline-none">
+						<span>当前{$__PAGING__.page_current}/{$__PAGING__.page_total}页</span>
+					</a>
+				</div>
+				<div class="relative">
+					<a class="filter text-nord6 group inline-flex items-center text-base leading-6 font-medium hover:text-primary focus:outline-none">
+						<span>排序: {if condition="$param['by'] eq ''||$param['by'] eq 'time'"}最近更新{/if}{if condition="$param['by'] eq 'hits_day'"}今日浏览数{/if}{if condition="$param['by'] eq 'hits_week'"}本周浏览数{/if}{if condition="$param['by'] eq 'hits_month'"}本月浏览数{/if}{if condition="$param['by'] eq 'hits'"}总浏览数{/if}</span>
+						<svg class="ml-1 h-5 w-5 text-nord6 group-hover:text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</a>
+					<div class="filterDropdown right-0 z-max origin-top-right absolute mt-2 w-56 rounded-md shadow-lg hidden">
+						<div class="rounded-md text-nord0 bg-nord5 shadow-xs">
+							<div class="py-1">   
+								<a href="{:mac_url_actor_detail($obj)}?by=time" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">最近更新</a>
+								<a href="{:mac_url_actor_detail($obj)}?by=hits_day" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">今日浏览数</a>
+								<a href="{:mac_url_actor_detail($obj)}?by=hits_week" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">本周浏览数</a>
+								<a href="{:mac_url_actor_detail($obj)}?by=hits_month" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">本月浏览数</a>
+								<a href="{:mac_url_actor_detail($obj)}?by=hits" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">总浏览数</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+				{maccms:vod actor="'.$obj['actor_name'].'" num="'.$GLOBALS['config']['madou']['typenum'].'" paging="yes" pageurl="actor/detail" order="desc" by="time"}
+				{include file="module/vodlist"}
+				{/maccms:vod}
+			</div>
+			{include file="widget/actorpage"}
+		</div>
+		{include file="system/footer"}
+	</body>
+</html>

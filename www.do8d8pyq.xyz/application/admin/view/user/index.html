@@ -1,0 +1,326 @@
+{include file="../../../application/admin/view/public/head" /}
+<style>
+.layuiadmin-card-list p.layuiadmin-big-font {
+    font-size: 36px;
+    color: #666;
+    line-height: 36px;
+    padding: 5px 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    margin: 0;
+}
+.layuiadmin-badge {
+    top: 50%;
+    margin-top: -9px;
+    color: #01AAED;
+}
+
+.layuiadmin-badge, .layuiadmin-btn-group, .layuiadmin-span-color {
+    position: absolute;
+    right: 15px;
+}
+
+.layuiadmin-span-color {
+    font-size: 14px;
+}
+
+.layuiadmin-card-link {
+    padding-left: 10px;
+    font-size: 0
+}
+
+.layuiadmin-card-link a {
+    display: inline-block;
+    width: 25%;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px
+}
+
+.layadmin-carousel {
+    background-color: #fff;
+}
+
+.layui-carousel>[carousel-item] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.layui-carousel>[carousel-item]>.layui-this {
+    left: 0;
+}
+
+.layadmin-carousel .layui-carousel, .layadmin-carousel>[carousel-item]>* {
+    background-color: #fff;
+}
+
+.layadmin-backlog .layadmin-backlog-body {
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    color: #999;
+    border-radius: 2px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.layadmin-backlog-body h3 {
+    padding-bottom: 10px;
+    font-size: 14px;
+	text-align: center;
+}
+
+.layadmin-backlog-body p {
+	text-align: center;
+}
+
+.layadmin-backlog-body p cite {
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 500;
+    color: #009688;
+}
+
+.layuiadmin-card-status {
+    padding: 0 10px 10px;
+}
+
+.layuiadmin-card-status dd {
+    padding: 10px 0;
+    border-bottom: 1px solid #EEE;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.layuiadmin-card-status dd div.layui-status-img, .layuiadmin-card-team .layui-team-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    margin-right: 15px;
+}
+
+.layuiadmin-card-status dd div.layui-status-img a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    line-height: 32px;
+}
+
+.layuiadmin-card-status dd div.layui-status-img img, .layuiadmin-card-team .layui-team-img img {
+    width: 32px;
+    height: 32px;
+}
+
+.layuiadmin-card-status dd div span {
+    color: #BBB;
+}
+
+.layuiadmin-card-status dd div p {
+    margin: 0;
+    padding: 0;
+}
+.layadmin-backlog-body {
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    color: #999;
+    border-radius: 2px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+</style>
+<div class="page-container p10">
+
+    <div class="my-toolbar-box">
+
+        <div class="center mb10">
+            <form class="layui-form " method="post" action="{:url('data')}">
+                <div class="layui-input-inline w150">
+                    <select name="status">
+                        <option value="">{:lang('select_status')}</option>
+                        <option value="0" {if condition="$param['status'] eq '0'"}selected {/if}>{:lang('reviewed_not')}</option>
+                        <option value="1" {if condition="$param['status'] eq '1'"}selected {/if}>{:lang('reviewed')}</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline w150">
+                    <select name="group">
+                        <option value="">{:lang('select_group')}</option>
+                        {volist name="group_list" id="vo"}
+                        <option value="{$vo.group_id}" {if condition="$param['group'] eq $vo.group_id"}selected {/if}>{$vo.group_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" placeholder="{:lang('wd')}" class="layui-input" name="wd" value="{$param['wd']|mac_filter_xss}">
+                </div>
+                <button class="layui-btn mgl-20 j-search" >{:lang('btn_search')}</button>
+            </form>
+        </div>
+		<fieldset class="layui-elem-field">
+        	<div class="layui-field-box" style="padding:0;">
+        		<div class="layui-col-md12">
+        			
+					<div class="layui-card">
+						<div class="layui-card-header">数据统计</div>
+						<div class="layui-card-body" style="background-color: #eee!important;">
+							<div class="layui-row layui-col-space15 layui-bg-gray">
+			
+								<div class="layui-col-sm6 layui-col-md3">
+									<div class="layui-card">
+									  <div class="layui-card-header">
+										<span class="layui-badge-dot layui-bg-orange"></span> 今日已付款
+										<span class="layui-badge layui-bg-danger ">{$order_day} 条</span> 
+										<span class="layui-badge-rim layuiadmin-badge">付款率 {if empty($order_day+$order_unpaid_day)}0{else/}{:round($order_day*100/($order_day+$order_unpaid_day))}{/if}%</span>
+										
+									  </div>
+									  <div class="layui-card-body layuiadmin-card-list">
+										<p class="layuiadmin-big-font">￥{$order_day_money}</p>
+										<p>订单总数 <span class="layui-badge-rim">{$order_day+$order_unpaid_day}条</span>
+											<span class="layuiadmin-span-color"><span class="layui-badge-dot"></span> 订单总额 <span class="layui-badge-rim">￥{$order_day_money+$order_unpaid_day_money}</span></span> 
+										</p>
+									  </div>
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md3">
+									<div class="layui-card">
+									  <div class="layui-card-header">
+										<span class="layui-badge-dot layui-bg-orange"></span> 本月已付款
+										<span class="layui-badge layui-bg-danger ">{$order_month} 条</span> 
+										<span class="layui-badge-rim layuiadmin-badge">付款率 {if empty($order_month+$order_unpaid_month)}0{else/}{:round($order_month*100/($order_month+$order_unpaid_month))}{/if}%</span>
+									  </div>
+									  <div class="layui-card-body layuiadmin-card-list">
+										<p class="layuiadmin-big-font">￥{$order_month_money}</p>
+										<p>订单总数 <span class="layui-badge-rim">{$order_month+$order_unpaid_month}条</span>
+											<span class="layuiadmin-span-color"><span class="layui-badge-dot"></span> 订单总额 <span class="layui-badge-rim">￥{$order_month_money+$order_unpaid_month_money}</span></span> 
+										</p>
+									  </div>
+									</div>
+								</div>
+						
+								<div class="layui-col-sm6 layui-col-md3">
+									<div class="layui-card">
+									  <div class="layui-card-header">
+										<span class="layui-badge-dot layui-bg-orange"></span> 总订单已付款
+										<span class="layui-badge layui-bg-danger ">{$order_total} 条</span> 
+										<span class="layui-badge-rim layuiadmin-badge">付款率 {if empty($order_total+$order_unpaid_total)}0{else/}{:round($order_total*100/($order_total+$order_unpaid_total))}{/if}%</span>
+										
+									  </div>
+									  <div class="layui-card-body layuiadmin-card-list">
+										<p class="layuiadmin-big-font">￥{$order_total_money}</p>
+										<p>订单总数 <span class="layui-badge-rim">{$order_total+$order_unpaid_total}条</span>
+											<span class="layuiadmin-span-color"><span class="layui-badge-dot"></span> 订单总额 <span class="layui-badge-rim">￥{$order_total_money+$order_unpaid_total_money}</span></span> 
+										</p>
+									  </div>
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md3">
+									<div class="layui-card">
+										<div class="layui-card-header">
+											<span class="layui-badge-dot layui-bg-orange"></span> 用户统计
+											<span class="layui-badge layui-bg-danger ">今日</span> 
+											<span class="layui-badge-rim layuiadmin-badge">转化率 {if empty($vips+$novip)}0{else/}{:round($vips*100/($vips+$novip))}{/if}%</span>
+										</div>
+										<div class="layui-card-body layuiadmin-card-list">
+											<p class="layuiadmin-big-font">{$user_day}</p>
+											<p>月注册 <span class="layui-badge-rim">{$user_month}</span>
+											<span class="layuiadmin-span-color"><span class="layui-badge-dot"></span> 总用户 <span class="layui-badge-rim">{$user_total}</span></span> </p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+        		</div>
+        	</div>
+        </fieldset>
+        <div class="layui-btn-group">
+            <a data-href="{:url('info')}" class="layui-btn layui-btn-primary j-iframe"><i class="layui-icon">&#xe654;</i>{:lang('add')}</a>
+            <a data-href="{:url('del')}" class="layui-btn layui-btn-primary j-page-btns confirm"><i class="layui-icon">&#xe640;</i>{:lang('del')}</a>
+        </div>
+
+    </div>
+
+    <form class="layui-form " method="post" id="pageListForm">
+        <table class="layui-table" lay-size="sm">
+            <thead>
+            <tr>
+                <th width="25"><input type="checkbox" lay-skin="primary" lay-filter="allChoose"></th>
+                <th width="100">{:lang('id')}</th>
+                <th >{:lang('name')}</th>
+                <th width="100">{:lang('group')}</th>
+                <th width="80">{:lang('status')}</th>
+                <th width="80">{:lang('points')}</th>
+                <th width="80">余额</th>
+                <th width="130">{:lang('last_login_time')}</th>
+                <th width="130">{:lang('last_login_ip')}</th>
+                <th width="80">{:lang('login_num')}</th>
+                <th width="220">{:lang('related_data')}</th>
+                <th width="100">{:lang('opt')}</th>
+            </tr>
+            </thead>
+
+            {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="ids[]" value="{$vo.user_id}" class="layui-checkbox checkbox-ids" lay-skin="primary"></td>
+                <td>{$vo.user_id}</td>
+                <td>{$vo.user_name|htmlspecialchars}</td>
+                <td>{$vo.group_name|htmlspecialchars}</td>
+                <td>
+                    <input type="checkbox" name="status" {if condition="$vo['user_status'] eq 1"}checked{/if} value="{$vo['user_status']}" lay-skin="switch" lay-filter="switchStatus" lay-text="{:lang('open')}|{:lang('close')}" data-href="{:url('field?col=user_status&ids='.$vo['user_id'])}">
+                </td>
+                <td>{$vo.user_points}</td>
+                <td>{$vo.user_money}</td>
+                <td>{$vo.user_login_time|mac_day='color'}</td>
+                <td>{$vo.user_login_ip|long2ip}</td>
+                <td>{$vo.user_login_num}</td>
+                <td>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('comment/data?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/comment_record')}">{:lang('admin/user/comment_record')}</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('order/index?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/order_record')}">{:lang('admin/user/order_record')}</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('ulog/index?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/visit_record')}">{:lang('admin/user/visit_record')}</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('plog/index?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/point_record')}">{:lang('admin/user/point_record')}</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('cash/index?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/withdrawals_record')}">{:lang('admin/user/withdrawals_record')}</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="{:url('user/reward?uid='.$vo['user_id'])}" href="javascript:;" title="{:lang('admin/user/three_distribution')}">{:lang('admin/user/three_distribution')}</a>
+                </td>
+                <td>
+                    <a class="layui-badge-rim j-iframe" data-href="{:url('info?id='.$vo['user_id'])}" href="javascript:;" title="{:lang('edit')}">{:lang('edit')}</a>
+                    <a class="layui-badge-rim j-tr-del" data-href="{:url('del?ids='.$vo['user_id'])}" href="javascript:;" title="{:lang('del')}">{:lang('del')}</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+        <div id="pages" class="center"></div>
+    </form>
+</div>
+
+{include file="../../../application/admin/view/public/foot" /}
+
+<script type="text/javascript">
+    var curUrl="{:url('user/data',$param)}";
+    layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage
+                , layer = layui.layer;
+
+        laypage.render({
+            elem: 'pages'
+            ,count: {$total}
+            ,limit: {$limit}
+            ,curr: {$page}
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    location.href = curUrl.replace('%7Bpage%7D',obj.curr).replace('%7Blimit%7D',obj.limit);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

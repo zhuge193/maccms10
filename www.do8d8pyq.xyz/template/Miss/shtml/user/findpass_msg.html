@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<meta charset="UTF-8" /> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>找回密码 - {$maccms.site_name}</title> 
+		<meta name="keywords" content="找回密码,{$maccms.site_keywords}" /> 
+		<meta name="description" content="{$maccms.site_description}" />
+		{include file="user/include"}
+	</head>
+	<body class="madou-min-width">
+	{include file="system/header"}
+	<div class="sm:container mx-auto px-4 content-without-search">
+		<h1 class="text-center text-2xl text-nord4 font-light mb-6">{$param['ac_text']}找回密码</h1>
+	</div>	
+	<div class="<!--madou-main-info--> madou-min-width px-4 pb-12"> 
+		<div class="madou-part-case"> 
+			<div class="madou-part-layout madou-back-whits"> 
+				<div class="madou-user-login"> 
+					<form class="madou-user-form madou-user-width madou-part-rows" method="post" id="fm" action=""> 
+						<input type="hidden" name="ac" value="{$param['ac']}">
+						<!--
+						<div class="madou-list-head madou-part-rows madou-padding"> 
+							<h2 class="madou-font-xvii madou-text-center">{$param['ac_text']}找回密码</h2> 
+						</div> 
+						-->
+						<input class="madou-user-text madou-col-xs12 madou-input" type="text" id="to" name="to" placeholder="请输入{$param['ac_text']}号" /> 
+						<input class="madou-user-text madou-col-xs8 madou-input" style="border-bottom-right-radius: 0;border-top-right-radius: 0;" type="text" id="verify" name="verify" placeholder="请输入验证码" maxlength="4" /> 
+						<img class="madou-user-code madou-user-text madou-col-xs4" style="height:40px;border-radius: .375rem;border-bottom-left-radius: 0;border-top-left-radius: 0;" src="{:mac_url('verify/index')}" onclick="this.src=this.src+'?'" title="看不清楚? 换一张！" /> 
+						<span class="madou-user-tips madou-text-gules madou-padding-v madou-visible madou-col-xs12">　</span> 
+						<input class="madou-subm-finds madou-user-submit madou-rims-info madou-btns-info madou-btns-green madou-col-xs12" type="button" id="btn_send" value="发送验证码" /> 
+					</form> 
+					<form class="madou-user-form madou-user-width madou-part-rows" method="post" id="fm2" action=""> 
+						<input type="hidden" name="ac" value="{$param['ac']}">
+						<div class="madou-list-head madou-part-rows madou-padding"> 
+							<h2 class="madou-font-xvii madou-text-center">验证信息</h2> 
+						</div> 
+						<input class="madou-user-text madou-col-xs12 madou-input" type="text" id="code" name="code" placeholder="请输入验证码" /> 
+						<input class="madou-user-text madou-col-xs12 madou-input" type="password" id="user_pwd" name="user_pwd" placeholder="请输入新密码" maxlength="20" /> 
+						<input class="madou-user-text madou-col-xs12 madou-input" type="password" id="user_pwd2" name="user_pwd2" placeholder="再次输入新密码" maxlength="20" /> 
+						<span class="madou-user-tips madou-text-gules madou-padding-v madou-visible madou-col-xs12">　</span> 
+						<input class="madou-subm-finds madou-user-submit madou-rims-info madou-btns-info madou-btns-green madou-col-xs12" type="button" id="btn_submit" value="重置密码" /> 
+						<a class="madou-padding madou-col-xs3 madou-text-left" href="{:mac_url('user/login')}">立即登录</a> 
+						<a class="madou-padding madou-col-xs3 madou-text-center" href="{:mac_url('user/findpass')}">问题找回</a> 
+						<a class="madou-padding madou-col-xs3 madou-text-center" href="{:mac_url('user/findpass_msg')}?ac=email">邮箱找回</a> 
+						<a class="madou-padding madou-text-right" style="float:right" href="{:mac_url('user/findpass_msg')}?ac=phone">手机找回</a>
+						<span class="madou-user-tips madou-text-gules madou-padding-v madou-visible madou-col-xs12">　</span>
+					</form> 
+				</div> 
+			</div> 
+		</div> 
+	</div>
+
+	{include file="system/footer"}  
+	<script>
+		$(function(){
+			$("body").bind('keyup',function(event) {
+				if(event.keyCode==13){ $('#btnLogin').click(); }
+			});
+			$('#btn_send').click(function() {
+				if ($('#to').val()  == '') { layer.msg('请输入您的{$param["ac_text"]}号'); $("#to").focus(); return false; }
+				if ($('#verify').val()  == '') { layer.msg('请输入验证码'); $("#verify").focus(); return false; }
+
+				$.ajax({
+					url: "{:mac_url('user/findpass_msg')}",
+					type: "post",
+					dataType: "json",
+					data: $('#fm').serialize(),
+					beforeSend: function () {
+						$("#btn_send").val("loading...");
+					},
+					success: function (r) {
+						layer.msg(r.msg);
+					},
+					complete: function () {
+						$('#verify').click();
+						$("#btn_send").val("发送邮件");
+					}
+				});
+			});
+
+			$('#btn_submit').click(function() {
+				if ($('#to').val()  == '') { layer.msg('请输入您的{$param["ac_text"]}号'); $("#to").focus(); return false; }
+				if ($('#code').val()  == '') { layer.msg('请输入您收到的验证码'); $("#code").focus(); return false; }
+				if ($('#user_pwd').val()  == '') { layer.msg('请输入您的新密码'); $("#user_pwd").focus(); return false; }
+				if ($('#user_pwd2').val()  == '') { layer.msg('请输入您的确认密码'); $("#user_pwd2").focus(); return false; }
+				if ($('#user_pwd').val()  != $('#user_pwd2').val() ) { layer.msg('二次密码不一致'); $("#user_pwd2").focus(); return false; }
+
+				var data= {ac:'{$param["ac"]}',to:$('#to').val(),code:$('#code').val(),user_pwd:$('#user_pwd').val(),user_pwd2:$('#user_pwd2').val()};
+				$.ajax({
+					url: "{:mac_url('user/findpass_reset')}",
+					type: "post",
+					dataType: "json",
+					data: data,
+					beforeSend: function () {
+						$("#btn_submit").val("loading...");
+					},
+					success: function (r) {
+						layer.msg(r.msg);
+					},
+					complete: function () {
+						$("#btn_submit").val("重置密码");
+					}
+				});
+			});
+		});
+	</script>  
+	</body>
+</html>

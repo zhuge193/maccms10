@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1" /> 
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" /> 
+		<meta name="format-detection" content="telephone=no" /> 
+		<title>卡密激活 - {$maccms.site_name}</title> 
+		<meta name="keywords" content="充值中心,{$maccms.site_keywords}" /> 
+		<meta name="description" content="{$maccms.site_description}" />
+		{include file="user/include"}
+	</head>
+	<body class="madou-min-width">
+	{include file="system/header"} 
+	<div class="madou-main-info madou-min-width"> 
+		<div class="madou-part-case"> 
+			<div class="madou-user-head madou-margin-top madou-back-whits"> 
+				<div class="madou-list-pics madou-lazy madou-part-5by2 madou-part-rows" style="background:url({$maccms.path}static/images/user.jpg);"> 
+					<div class="madou-part-core madou-text-center"> 
+						<div class="madou-user-image" data-role="{:mac_url('user/portrait')}"> 
+							<img class="face madou-user-avat madou-part-roun" src="{$obj.user_portrait|mac_default='static/images/touxiang.png'|mac_url_img}?v={:time()}" /> 
+						</div> 
+						<span class="madou-visible madou-text-white madou-padding">{$obj.user_name}</span> 
+					</div> 
+				</div> 
+				<div class="madou-padding madou-part-rows madou-back-whits madou-hide-md"> 
+					<ul class="madou-user-brief madou-part-rows madou-back-whits"> 
+						<li class="madou-padding-x madou-text-center madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.user_points}</span> <span class="madou-visible">我的积分</span> </li> 
+						<li class="madou-padding-x madou-text-center madou-line-left madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.group.group_name}</span> <span class="madou-visible">我的等级</span> </li> 
+						<li class="madou-padding-x madou-text-center madou-line-left madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.user_money}</span> <span class="madou-visible">我的余额</span> </li> 
+					</ul> 
+				</div> 
+			</div> 
+			<div class="madou-part-rows"> 
+				<div class="madou-main-left madou-col-xs12 madou-col-md4 madou-col-lg3 madou-hide-xs madou-hide-sm madou-show-md-block">
+				   {include file="user/menu"} 
+				</div> 
+				<div class="madou-main-right madou-col-xs12 madou-col-md8 madou-col-lg9"> 
+					<div class="madou-part-layout madou-back-whits"> 
+						<div class="madou-user-title madou-list-head madou-part-rows madou-padding madou-line-bottom"> 
+							<h2 class="madou-font-xvi madou-padding">卡密激活</h2> 
+							<ul class="madou-part-tips madou-padding"> 
+								<li class="madou-padding"> <a class="madou-more" href="{:mac_url('user/index')}">返回</a> </li> 
+							</ul> 
+						</div> 
+						<ul class="madou-user-list madou-part-rows madou-back-whits"> 
+							{if condition="$maccms.site_qq neq ''"}
+							<li class="madou-padding-x madou-part-rows madou-line-bottom"> 
+								<div class="madou-user-input madou-visible madou-font-xvi madou-part-rows"> 
+								<span class="madou-col-xs4 madou-col-sm3 madou-part-eone">联系站长</span> 
+								<span class="madou-col-xs7 madou-col-sm6 madou-part-eone"><a href="https://wpa.qq.com/msgrd?v=3&amp;uin={$maccms.site_qq}&amp;site=qq&amp;menu=yes" target="_blank">QQ:{$maccms.site_qq}</a></span> 
+								<span class="madou-col-xs1 madou-col-sm3 madou-part-eone madou-text-right"><i class="madou-icon-font madou-icon-you"></i></span> 
+								</div> 
+							</li> 
+							{/if}
+							{if condition="$GLOBALS['config']['pay']['card']['url'] neq ''"}
+							<li class="madou-padding-x madou-part-rows madou-line-bottom"> 
+								<div class="madou-user-input madou-visible madou-font-xvi madou-part-rows"> 
+								<span class="madou-col-xs4 madou-col-sm3 madou-part-eone">在线购卡</span> 
+								<span class="madou-col-xs7 madou-col-sm6 madou-part-eone"><a href="{$GLOBALS['config']['pay']['card']['url']}" target="_blank">点我购买</a></span> 
+								<span class="madou-col-xs1 madou-col-sm3 madou-part-eone madou-text-right"><i class="madou-icon-font madou-icon-you"></i></span> 
+								</div> 
+							</li> 
+							{/if}
+							<li class="madou-padding-x madou-part-rows madou-line-bottom"> 
+								<div class="madou-user-input madou-visible madou-font-xvi madou-part-rows"> 
+								<span class="madou-col-xs4 madou-col-sm3 madou-part-eone">激活卡密</span> 
+								<span class="madou-col-xs7 madou-col-sm6 madou-part-eone"><input class="madou-input" type="text" name="card_no" maxlength="40" placeholder="激活卡密" /></span> 
+								<span class="madou-col-xs1 madou-col-sm3 madou-part-eone madou-text-right"><i class="madou-icon-font madou-icon-you"></i></span> 
+								</div> 
+							</li> 
+							<li class="madou-padding-x madou-part-rows"> 
+								<span class="madou-col-xs4 madou-col-sm3 madou-part-eone madou-hide-xs">&nbsp;</span> 
+								<input class="madou-subm-cards madou-col-xs7 madou-col-sm6 madou-rims-info madou-btns-info madou-btns-green madou-col-xs12" type="button" id="btn_submit" value="确认" /> 
+							</li> 
+						</ul> 
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+	</div> 
+	{include file="system/footer"}
+	<script>
+		$(".go-back").click(function () {
+			var ref = document.referrer;
+			location.href=ref;
+		});
+
+		$('#btn_submit').click(function(){
+			var that=$(this);
+			var no = $('input[name="card_no"]').val();
+			if(no==''){
+				layer.msg('请输入充值卡号');
+				return;
+			}
+			layer.confirm('确定要使用充值卡充值吗', {
+				title: '提示',
+				btn: ['确定', '取消']
+			}, function() {
+				$.ajax({
+					url: "{:mac_url('user/buy')}",
+					type: "post",
+					dataType: "json",
+					data: {card_no: no,flag:'card'},
+					beforeSend: function () {
+						$("#btn_submit").val("loading...");
+					},
+					success: function (r) {
+						layer.msg(r.msg);
+						if(r.code==1){
+							setTimeout(function(){
+								location.href="{:mac_url('user/index')}";
+							},1000);	
+						}
+					},
+					complete: function () {
+						$("#btn_submit").val("提交");
+					}
+				});
+			});
+		});
+
+		$(".face").imageUpload({
+			formAction: "{:mac_url('user/portrait')}",
+			inputFileName:'file',
+			browseButtonValue: '',
+			browseButtonClass:'btn btn-default btn-xs madou-user-alter madou-part-roun madou-icon-font madou-icon-xiugai',
+			automaticUpload: true,
+			hideDeleteButton: true,
+			hover:true
+		})
+		$(".jQuery-image-upload-controls").mouseenter(function(){
+			$(".jQuery-image-upload-controls").css("display","block");
+		});
+		$(".jQuery-image-upload-controls").mouseleave(function(){
+			$(".jQuery-image-upload-controls").css("display","none");
+		});
+		$(".face").on("imageUpload.uploadFailed", function (ev, err) {
+			layer.msg(err);
+		});
+	</script>  
+	</body>
+</html>

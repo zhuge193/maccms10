@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1" /> 
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" /> 
+		<meta name="format-detection" content="telephone=no" /> 
+		<title>绑定数据 - {$maccms.site_name}</title> 
+		<meta name="keywords" content="绑定数据,{$maccms.site_keywords}" /> 
+		<meta name="description" content="{$maccms.site_description}" />
+		{include file="user/include"}
+	</head>
+	<body class="madou-min-width">
+	{include file="system/header"}
+	<div class="madou-main-info madou-min-width"> 
+		<div class="madou-part-case"> 
+			<div class="madou-user-head madou-margin-top madou-back-whits"> 
+				<div class="madou-list-pics madou-lazy madou-part-5by2 madou-part-rows" style="background:url({$maccms.path}static/images/user.jpg);"> 
+					<div class="madou-part-core madou-text-center"> 
+					<div class="madou-user-image" data-role="{:mac_url('user/portrait')}"> 
+						<img class="face madou-user-avat madou-part-roun" src="{$obj.user_portrait|mac_default='static/images/touxiang.png'|mac_url_img}?v={:time()}" /> 
+					</div> 
+					<span class="madou-visible madou-text-white madou-padding">{$obj.user_name}</span> 
+					</div> 
+				</div> 
+				<div class="madou-padding madou-part-rows madou-back-whits madou-hide-md"> 
+					<ul class="madou-user-brief madou-part-rows madou-back-whits"> 
+						<li class="madou-padding-x madou-text-center madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.user_points}</span> <span class="madou-visible">我的积分</span> </li> 
+						<li class="madou-padding-x madou-text-center madou-line-left madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.group.group_name}</span> <span class="madou-visible">我的等级</span> </li> 
+						<li class="madou-padding-x madou-text-center madou-line-left madou-col-xs4"> <span class="madou-visible madou-text-gules">{$obj.user_money}</span> <span class="madou-visible">我的余额</span> </li> 
+					</ul> 
+				</div> 
+			</div> 
+			<div class="madou-part-rows"> 
+				<div class="madou-main-left madou-col-xs12 madou-col-md4 madou-col-lg3 madou-hide-xs madou-hide-sm madou-show-md-block">
+				{include file="user/menu"} 
+				</div> 
+				<div class="madou-main-right madou-col-xs12 madou-col-md8 madou-col-lg9"> 
+					<div class="madou-part-layout madou-back-whits"> 
+						<div class="madou-user-title madou-list-head madou-part-rows madou-padding madou-line-bottom"> 
+							<h2 class="madou-font-xvi madou-padding">绑定{if$ac=='phone'}手机{else}邮箱{/if}</h2> 
+							<ul class="madou-part-tips madou-padding"> 
+								<li class="madou-padding"> <a class="madou-more" href="{:mac_url('user/index')}">返回</a> </li> 
+							</ul> 
+						</div> 
+						<form class="madou-user-form madou-user-info madou-part-rows" id="fm" name="fm" method="post" action=""> 
+							<input type="hidden" name="ac" value="{$ac}" /> 
+							<ul class="madou-user-list madou-part-rows madou-back-whits"> 
+								<li class="madou-padding-x madou-part-rows madou-line-bottom"> 
+									<div class="madou-user-input madou-visible madou-font-xvi madou-part-rows"> 
+									<span class="madou-col-xs3 madou-col-sm3 madou-part-eone">{if$ac=='phone'}手机{else}邮箱{/if}</span> 
+									<span class="madou-col-xs5 madou-col-sm6 madou-part-eone"><input class="madou-input" type="text" name="to" class="member-input" placeholder="{if$ac=='phone'}手机号码{else}邮箱地址{/if}" /></span> 
+									<span class="madou-col-xs4 madou-col-sm3 madou-part-eone madou-text-right"><input class="madou-user-bind" type="button" id="btn_bind_send" style="width: auto;" value="获取验证码" /></span> 
+									</div> 
+								</li> 
+								<li class="madou-padding-x madou-part-rows madou-line-bottom"> 
+									<div class="madou-user-input madou-visible madou-font-xvi madou-part-rows"> 
+									<span class="madou-col-xs3 madou-col-sm3 madou-part-eone">验证码</span> 
+									<span class="madou-col-xs3 madou-col-sm6 madou-part-eone"><input class="madou-input" type="text" name="code" class="member-input" placeholder="验证码" /></span> 
+									<span class="madou-col-xs6 madou-col-sm3 madou-part-eone madou-text-right"><span class="madou-user-tips madou-text-gules">＊</span></span> 
+									</div> 
+								</li> 
+								<li class="madou-padding-x madou-part-rows"> <span class="madou-col-xs4 madou-col-sm3 madou-part-eone madou-hide-xs">&nbsp;</span> <input class="madou-subm-binds madou-col-xs7 madou-col-sm6 madou-rims-info madou-btns-info madou-btns-green madou-col-xs12" type="button" id="btn_submit" value="确认绑定" /> </li> 
+							</ul> 
+							{if$__PAGING__.page_total>1} 
+							<div class="madou-page-info madou-text-center"> 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-xs-inline{if$__PAGING__['page_current']==1} madou-btns-disad{/if}" href="{$__PAGING__.page_url|mac_url_page=1}">首页</a> 
+								<a class="madou-btns-info madou-rims-info{if$__PAGING__['page_current']==1} madou-btns-disad{/if}" href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_prev}">上一页</a> {if$__PAGING__.page_current>3} 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-sm-inline" href="{$__PAGING__.page_url|mac_url_page=1}">1</a> 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-sm-inline madou-btns-disad" href="javascript:;">...</a> {/if} {maccms:foreach name="$__PAGING__.page_num" id="num"} 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-sm-inline{if$__PAGING__['page_current']==$num} madou-btns-green{/if}" href="{if$__PAGING__['page_current']==$num}javascript:;{else}{$__PAGING__.page_url|mac_url_page=$num}{/if}">{$num}</a> {/maccms:foreach} {if$__PAGING__.page_current<($__PAGING__.page_total-2)} 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-sm-inline madou-btns-disad" href="javascript:;">...</a> 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-sm-inline" href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_total}">{$__PAGING__.page_total}</a> {/if} 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-xs-inline" href="javascript:;">{$__PAGING__.page_current}/{$__PAGING__.page_total}</a> 
+								<a class="madou-btns-info madou-rims-info{if$__PAGING__['page_current']==$__PAGING__.page_total} madou-btns-disad{/if}" href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_next}">下一页</a> 
+								<a class="madou-btns-info madou-rims-info madou-hide madou-show-xs-inline{if$__PAGING__['page_current']==$__PAGING__.page_total} madou-btns-disad{/if}" href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_total}">尾页</a> 
+							</div> 
+							{/if}
+							{if$__PAGING__.record_total!=0} 
+							<script type="text/javascript">
+							if(document.getElementById('madou-now')) document.getElementById('madou-now').innerHTML='{$__PAGING__.page_current}';
+							if(document.getElementById('madou-count')) document.getElementById('madou-count').innerHTML='{$__PAGING__.record_total}';
+							</script> 
+							{/if} 
+						</form> 
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+	</div> 
+	{include file="system/footer"}
+	<script type="text/javascript">
+		var countdown=60;
+		function settime(val) {
+			if (countdown == 0) {
+				val.removeAttribute("disabled");
+				val.value="获取验证码";
+				countdown = 60;
+				return true;
+			} else {
+				val.setAttribute("disabled", true);
+				val.value="重新发送(" + countdown + ")";
+				countdown--;
+			}
+			setTimeout(function() {settime(val) },1000)
+		}
+
+		$('#btn_bind_send').click(function(){
+			var ac = $('input[name="ac"]').val();
+			var to = $('input[name="to"]').val();
+			if(ac=='email') {
+				var pattern = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+				var ex = pattern.test(to);
+				if (!ex) {
+					layer.msg('邮箱格式不正确');
+					return;
+				}
+			}
+			else if(ac=='phone') {
+				var pattern=/^[1][0-9]{10}$/;
+				var ex = pattern.test(to);
+				if (!ex) {
+					layer.msg('手机号格式不正确');
+					return;
+				}
+			}
+			else{
+				layer.msg('参数错误');
+				return;
+			}
+
+
+			settime(this);
+			var data = $("#fm").serialize();
+
+			$.ajax({
+				url: "{:url('user/bindmsg')}",
+				type: "post",
+				dataType: "json",
+				data: data,
+				beforeSend: function () {
+					//开启loading
+				},
+				success: function (r) {
+					layer.msg(r.msg);
+				},
+				complete: function () {
+					//结束loading
+				}
+			});
+		});
+
+		$("#btn_submit").click(function() {
+			var ac = $('input[name="ac"]').val();
+			var to = $('input[name="to"]').val();
+
+			if(ac=='email') {
+				var pattern = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+				var ex = pattern.test(to);
+				if (!ex) {
+					layer.msg('邮箱格式不正确');
+					return;
+				}
+			}
+			else if(ac=='phone') {
+				var pattern=/^[1][0-9]{10}$/;
+				var ex = pattern.test(to);
+				if (!ex) {
+					layer.msg('手机号格式不正确');
+					return;
+				}
+			}
+			else{
+				layer.msg('参数错误');
+				return;
+			}
+
+			var code = $('input[name="code"]').val();
+			if(code==''){
+				layer.msg('请输入验证码');
+				return;
+			}
+			var data = $("#fm").serialize();
+
+			$.ajax({
+				url: "{:url('user/bind')}",
+				type: "post",
+				dataType: "json",
+				data: data,
+				beforeSend: function () {
+					//开启loading
+					//$(".loading_box").css("display","block");
+					$("#btn_submit").val("loading...");
+				},
+				success: function (r) {
+					layer.msg(r.msg);
+					if(r.code==1){
+						location.href="{:url('user/info')}";
+					}
+				},
+				complete: function () {
+					//结束loading
+					//$(".loading_box").css("display","none");
+					$("#btn_submit").val("提交");
+				}
+			});
+		});
+		
+		$(".face").imageUpload({
+			formAction: "{:url('user/portrait')}",
+			inputFileName:'file',
+			browseButtonValue: '',
+			browseButtonClass:'btn btn-default btn-xs madou-user-alter madou-part-roun madou-icon-font madou-icon-xiugai',
+			automaticUpload: true,
+			hideDeleteButton: true,
+			hover:true
+		})
+		$(".jQuery-image-upload-controls").mouseenter(function(){
+			$(".jQuery-image-upload-controls").css("display","block");
+		});
+		$(".jQuery-image-upload-controls").mouseleave(function(){
+			$(".jQuery-image-upload-controls").css("display","none");
+		});
+		$(".face").on("imageUpload.uploadFailed", function (ev, err) {
+			layer.msg(err);
+		});
+	</script>  
+	</body>
+</html>

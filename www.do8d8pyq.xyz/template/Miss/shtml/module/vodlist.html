@@ -1,0 +1,23 @@
+<div class="thumbnail group">
+	<div class="relative aspect-w-16 aspect-h-9 rounded overflow-hidden shadow-lg">
+		<a href="{:mac_url_vod_play($vo)}"><img class="lozad w-full" data-src="{:mac_url_img($vo.vod_pic)}" src="{$GLOBALS['config']['madou']['lazy']}" onerror="javascript:this.src='{$GLOBALS['config']['madou']['lazy']}'" alt="{$vo.vod_name}"></a>
+		{if condition="$GLOBALS['config']['madou']['free']['state'] neq '1'"}
+    	{if condition="$vo.vod_vip eq '2'&&$vo.vod_points eq '0'"}
+    	<a href="{:mac_url_vod_play($vo)}"><span class="absolute bottom-1 right-1 rounded-lg px-2 py-1 text-xs text-nord5 bg-red-800 bg-opacity-75 box-tag vip">VIP</span></a>
+    	{elseif condition="$vo.vod_points neq '0'&&$vo.vod_vip eq '2'"}
+    	<a href="{:mac_url_vod_play($vo)}"><span class="absolute bottom-1 right-1 rounded-lg px-2 py-1 text-xs text-nord5 bg-red-800 bg-opacity-75 box-tag vip">${$vo.vod_points}</span></a>
+    	{elseif condition="$vo.vod_points neq '0'&&$vo.vod_vip eq '1'"}
+    	<a href="{:mac_url_vod_play($vo)}"><span class="absolute bottom-1 right-1 rounded-lg px-2 py-1 text-xs text-nord5 bg-red-800 bg-opacity-75 box-tag vip">${$vo.vod_points}</span></a>
+    	{else}
+    	{/if}
+    	{/if}
+		{if condition="$vo.vod_remarks neq ''"}
+		<a href="{:mac_url_vod_play($vo)}"><span class="absolute bottom-1 left-1 rounded-lg px-2 py-1 text-xs text-nord5 bg-red-800 bg-opacity-75">{$vo.vod_remarks}</span></a>
+		{/if}
+		{if condition="$vo.vod_duration neq ''"}
+		<a href="{:mac_url_vod_play($vo)}"><span class="absolute bottom-1 right-1 rounded-lg px-2 py-1 text-xs text-nord5 bg-gray-800 bg-opacity-75">{$vo.vod_duration|mac_default=''}</span></a>
+		{/if}
+	</div>
+	<div class="my-2 text-sm text-nord4 truncate"><a class="text-secondary group-hover:text-primary" href="{:mac_url_vod_play($vo)}">{$vo.vod_name}</a></div>
+</div>
+

@@ -1,0 +1,74 @@
+<nav class="flex items-center justify-between mt-6">
+	<div class="flex justify-between flex-1 md:hidden">
+		<a {if$__PAGING__['page_current'] neq '1'}href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current-1}"{/if} class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-nord4 rounded-lg leading-5 bg-nord2 active:bg-nord1 transition ease-in-out duration-150">上一页</a>
+		<form action="" method="GET" class="relative">
+			<input type="text" name="page" value="{$__PAGING__.page_current}" class="bg-nord1 appearance-none w-28 border-2 border-nord3 rounded-lg px-3 py-2 text-nord4 leading-5 focus:outline-none focus:text-nord9 focus:bg-nord0 focus:ring-0 focus:border-nord9" maxlength="4">
+			<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+				<span class="text-gray-500 sm:text-sm">
+					/ {$__PAGING__.page_total}
+				</span>
+			</div>
+		</form>
+		<a {if condition="$__PAGING__['page_current'] neq $__PAGING__.page_total"}href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current+1}"{/if} class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-nord4 rounded-lg leading-5 bg-nord2 active:bg-nord1 transition ease-in-out duration-150">下一页</a>
+	</div>
+	<div class="hidden md:flex-1 md:flex md:items-center md:justify-center">
+		<span class="relative z-0 inline-flex shadow-sm">
+			{if$__PAGING__['page_current'] neq '1'}
+			<a href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current-1}" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-nord4 rounded-lg leading-5 hover:bg-nord1 active:bg-nord1 transition ease-in-out duration-150">
+				<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+				</svg>
+			</a>
+			{/if}
+			{maccms:foreach name="$__PAGING__.page_num" id="num"}
+			{if condition="$__PAGING__['page_current'] eq $num"}
+			<span aria-current="page">
+				<span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium rounded-lg text-nord6 bg-primary cursor-default leading-5">{$num}</span>
+			</span>
+			{else}
+			<a href="{:mac_url_actor_detail($obj)}?page={$num}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-nord4 leading-5 rounded-lg hover:bg-nord1 focus:z-10 focus:outline-none active:bg-nord1 transition ease-in-out duration-150">{$num}</a>
+			{/if}
+			{/maccms:foreach}
+			<span aria-disabled="true">
+				<span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-nord4 cursor-default leading-5">...</span>
+			</span>
+			<a href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_total}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-nord4 leading-5 rounded-lg hover:bg-nord1 focus:z-10 focus:outline-none active:bg-nord1 transition ease-in-out duration-150">{$__PAGING__.page_total}</a>
+			{if condition="$__PAGING__['page_current'] neq $__PAGING__.page_total"}
+			<a href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current+1}" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-nord4 rounded-lg leading-5 hover:bg-nord1 active:bg-nord1 transition ease-in-out duration-150" aria-label="pagination.next">
+				<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+				</svg>
+			</a>
+			{/if}
+		</span>
+	</div>
+</nav>
+<div class="hidden md:flex md:flex-col md:items-center md:justify-center mt-4 text-nord9 space-y-6">
+	<div>使用键盘上的 ← 与 → 键来转页</div>
+	<div>
+		<form action="" method="GET" class="relative">
+			<input type="text" name="page" value="{$__PAGING__.page_current}" class="bg-nord1 appearance-none w-28 border-2 border-nord3 rounded-lg px-3 py-2 text-nord4 leading-5 focus:outline-none focus:text-nord9 focus:bg-nord0 focus:ring-0 focus:border-nord9" maxlength="4">
+			<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+				<span class="text-gray-500 sm:text-sm" id="price-currency">/ {$__PAGING__.page_total}</span>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	window.document.onkeydown = disableRefresh;
+	function disableRefresh(evt) {
+		evt = (evt) ? evt : window.event
+		if (evt.keyCode) {
+			{if$__PAGING__['page_current'] neq '1'}
+			if (evt.keyCode == 37) {
+				window.location.href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current-1}";
+			}
+			{/if}
+			{if condition="$__PAGING__['page_current'] neq $__PAGING__.page_total"}
+			if (evt.keyCode == 39) {
+				window.location.href="{:mac_url_actor_detail($obj)}?page={$__PAGING__.page_current+1}";
+			}
+			{/if}
+		}
+	}
+</script>

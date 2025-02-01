@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>分类 - {$maccms.site_name}</title>
+		<meta name="keywords" content="{$maccms.site_keywords}">
+		<meta name="description" content="{$maccms.site_description}">
+		{include file="system/include"}
+	</head>
+	<body class="relative">
+		{include file="system/header"}
+		<div class="sm:container mx-auto px-4 content-without-search pb-12">
+			<h1 class="text-center text-2xl text-nord4 font-light mb-6">分类</h1>
+			<div class="p-8 text-nord4 bg-nord1 rounded-lg">
+				<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+					{maccms:type ids="parent" order="asc" by="sort" mid="1"}
+					<div>
+						<a href="{:mac_url_type($vo)}" class="text-nord13">{$vo.type_name}</a>
+						<p class="text-nord10">
+							<a href="{:mac_url_topic_detail($vo)}">{$vo.type_id|mac_data_count=all} 部影片</a>
+						</p>
+					</div>
+					{/maccms:type}
+				</div>
+			</div>
+		</div>
+		{include file="system/footer"}
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>演员库 - {$maccms.site_name}</title>
+		<meta name="keywords" content="{$maccms.site_keywords}">
+		<meta name="description" content="{$maccms.site_description}">
+		{include file="system/include"}
+	</head>
+	<body class="relative">
+		{include file="system/header"}
+		<div class="sm:container mx-auto px-4 content-without-search pb-12">
+			<h1 class="text-center text-2xl text-nord4 font-light mb-6">演员库</h1>
+			<div class="max-w-full p-4 text-nord4 bg-nord1 rounded-lg">
+				<ul class="mx-auto grid grid-cols-3 gap-4 gap-y-8 sm:grid-cols-4 md:gap-6 lg:gap-8 lg:gap-y-12 xl:grid-cols-6 text-center">
+					{maccms:actor num="100" order="desc" by="time"}
+					<li>
+						<div class="space-y-4">
+							<a href="{:mac_url_actor_detail($vo)}" class="text-nord13">
+								<div class="overflow-hidden mx-auto h-20 w-20 rounded-full lg:w-24 lg:h-24">
+									<img class="object-cover object-top w-full h-full lozad" data-src="{:mac_url_img($vo.actor_pic)}" src="{$GLOBALS['config']['madou']['lazy']}" onerror="javascript:this.src='{$GLOBALS['config']['madou']['lazy']}'" alt="{$vo.actor_name}">
+								</div>
+							</a>
+							<div class="space-y-2">
+								<a href="{:mac_url_actor_detail($vo)}" class="text-nord13">
+									<h4 class="text-nord13 truncate">{$vo.actor_name}</h4>
+									<p class="text-nord10">{maccms:vod paging="yes" pageurl="actor/index" actor="'.$vo['actor_name'].'" id="vo2" key="key2"}{/maccms:vod}{$__PAGING__.record_total} 部影片</p>
+								</a>
+							</div>
+						</div>
+					</li>
+					{/maccms:actor}
+				</ul>
+			</div>
+		</div>
+		{include file="system/footer"}
+	</body>
+</html>

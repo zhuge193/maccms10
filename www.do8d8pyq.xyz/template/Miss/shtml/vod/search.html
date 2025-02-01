@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>{$param.wd}{$param.actor}{$param.director}{$param.area}{$param.lang}{$param.year}{$param.class}{$param.tag}搜索结果 - {$maccms.site_name}</title>
+		<meta name="keywords" content="{$param.wd}{$param.actor}{$param.director}{$param.area}{$param.lang}{$param.year}{$param.class}{$param.tag}搜索结果">
+		<meta name="description" content="{$param.wd}{$param.actor}{$param.director}{$param.area}{$param.lang}{$param.year}{$param.class}{$param.tag}搜索结果">
+		{include file="system/include"}
+	</head>
+	<body class="relative">
+		{include file="system/header"}
+		<div class="sm:container mx-auto px-4 content-without-search pb-12">
+			<h1 class="text-center text-2xl text-nord4 mb-6">{$param.wd}{$param.actor}{$param.director}{$param.area}{$param.lang}{$param.year}{$param.class}{$param.tag}的搜索结果</h1>
+			<div class="flex justify-between mb-6">
+				<div class="relative">
+					{maccms:vod num="'.$GLOBALS['config']['madou']['typenum'].'" paging="yes" pageurl="vod/search" order="desc" by="time"}{/maccms:vod}
+					<a class="text-nord6 group inline-flex items-center text-base leading-6 font-medium hover:text-primary focus:outline-none">
+						<span>当前{$__PAGING__.page_current}/{$__PAGING__.page_total}页</span>
+					</a>
+				</div>
+				<div class="relative">
+					<a class="filter text-nord6 group inline-flex items-center text-base leading-6 font-medium hover:text-primary focus:outline-none">
+						<span>排序: {if condition="$param['by'] eq ''||$param['by'] eq 'time'"}最近更新{/if}{if condition="$param['by'] eq 'hits_day'"}今日浏览数{/if}{if condition="$param['by'] eq 'hits_week'"}本周浏览数{/if}{if condition="$param['by'] eq 'hits_month'"}本月浏览数{/if}{if condition="$param['by'] eq 'hits'"}总浏览数{/if}</span>
+						<svg class="ml-1 h-5 w-5 text-nord6 group-hover:text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</a>
+					<div class="filterDropdown right-0 z-max origin-top-right absolute mt-2 w-56 rounded-md shadow-lg hidden">
+						<div class="rounded-md text-nord0 bg-nord5 shadow-xs">
+							<div class="py-1">
+								<a href="{:mac_url_search(['wd'=>$param['wd'],'area'=>$param['area'],'lang'=>$param['lang'],'year'=>$param['year'],'level'=>$param['level'],'letter'=>$param['letter'],'state'=>$param['state'],'tag'=>$param['tag'],'class'=>$param['class'],'order'=>$param['order'],'by'=>'time' ],'vod')}" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">最近更新</a>
+								<a href="{:mac_url_search(['wd'=>$param['wd'],'area'=>$param['area'],'lang'=>$param['lang'],'year'=>$param['year'],'level'=>$param['level'],'letter'=>$param['letter'],'state'=>$param['state'],'tag'=>$param['tag'],'class'=>$param['class'],'order'=>$param['order'],'by'=>'hits_day' ],'vod')}" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">今日浏览数</a>
+								<a href="{:mac_url_search(['wd'=>$param['wd'],'area'=>$param['area'],'lang'=>$param['lang'],'year'=>$param['year'],'level'=>$param['level'],'letter'=>$param['letter'],'state'=>$param['state'],'tag'=>$param['tag'],'class'=>$param['class'],'order'=>$param['order'],'by'=>'hits_week' ],'vod')}" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">本周浏览数</a>
+								<a href="{:mac_url_search(['wd'=>$param['wd'],'area'=>$param['area'],'lang'=>$param['lang'],'year'=>$param['year'],'level'=>$param['level'],'letter'=>$param['letter'],'state'=>$param['state'],'tag'=>$param['tag'],'class'=>$param['class'],'order'=>$param['order'],'by'=>'hits_month' ],'vod')}" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">本月浏览数</a>
+								<a href="{:mac_url_search(['wd'=>$param['wd'],'area'=>$param['area'],'lang'=>$param['lang'],'year'=>$param['year'],'level'=>$param['level'],'letter'=>$param['letter'],'state'=>$param['state'],'tag'=>$param['tag'],'class'=>$param['class'],'order'=>$param['order'],'by'=>'hits' ],'vod')}" class="block px-4 py-2 text-sm leading-5 text-nord0 hover:bg-nord4">总浏览数</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+				{maccms:vod num="'.$GLOBALS['config']['madou']['typenum'].'" paging="yes" pageurl="vod/search" order="desc" by="time"}
+				{include file="module/vodlist"}
+				{/maccms:vod}
+			</div>
+			{include file="system/paging"}
+		</div>
+		{include file="system/footer"}
+	</body>
+</html>

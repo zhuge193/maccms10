@@ -1,0 +1,39 @@
+<div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+	<div class="md:grid md:grid-cols-2 md:gap-8">
+		<div>
+			<h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">影片</h3>
+			<ul class="mt-4 space-y-4">
+				<li>
+					<a href="{:mac_url('label/rank',['by'=>'time'])}" class="text-base text-gray-500 hover:text-primary">最近更新</a>
+				</li>
+				<li>
+					<a href="{:mac_url('label/rank',['by'=>'hits_week'])}" class="text-base text-gray-500 hover:text-primary">热门视频</a>
+				</li>
+				<li>
+					<a href="{:mac_url('label/rank',['by'=>'up'])}" class="text-base text-gray-500 hover:text-primary">点赞最多</a>
+				</li>
+				<li>
+					<a href="{:mac_url('label/rank',['by'=>'score'])}" class="text-base text-gray-500 hover:text-primary">评分最高</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mt-12 md:mt-0">
+			<h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">频道</h3>
+			<ul class="mt-4 space-y-4">
+				<li>
+					<a href="{:mac_url('actor/index')}" class="text-base text-gray-500 hover:text-primary">演员</a>
+				</li>
+				<li>
+					<a href="{:mac_url('label/sort')}" class="text-base text-gray-500 hover:text-primary">分类</a>
+				</li>
+				<li>
+					<a href="{:mac_url('topic/index')}" class="text-base text-gray-500 hover:text-primary">专题</a>
+				</li>
+				<li>
+					<a href="{:mac_url('art/index')}" class="text-base text-gray-500 hover:text-primary">资讯</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{$GLOBALS['config']['madou']['footer']['menu']|htmlspecialchars_decode}
+</div>

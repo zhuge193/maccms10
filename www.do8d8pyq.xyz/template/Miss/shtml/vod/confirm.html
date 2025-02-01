@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>在线播放{$obj.vod_name} {$obj['vod_play_list'][$param['sid']]['urls'][$param['nid']]['name']} - 高清资源 - {$maccms.site_name}</title>
+		<meta name="keywords" content="{$obj.vod_name}{$obj['vod_play_list'][$param['sid']]['urls'][$param['nid']]['name']}免费在线观看,{$obj.vod_name}剧情介绍" />
+		<meta name="description" content="{$obj.vod_name}{$obj['vod_play_list'][$param['sid']]['urls'][$param['nid']]['name']}免费在线观看,{$obj.vod_name}剧情介绍" />
+		{include file="system/include"}
+	</head>
+	<body class="relative">
+		{include file="system/header"}
+		<div class="sm:container mx-auto px-4 content-without-search pb-12">
+			<div class="flex">
+				<div class="hidden lg:flex h-full ml-6 order-last" style="max-width: 300px; min-width: 300px;">
+					<div>
+						{maccms:vod num="12" type="current" order="desc" by="hits_day" not="'.$obj['vod_id'].'"}
+						{include file="module/rvodlist"}
+						{/maccms:vod}
+					</div>
+				</div>
+				<div class="flex-1 order-first">
+					<div class="relative -mx-4 -mt-6 sm:m-0">
+						<div class="aspect-w-16 aspect-h-9">
+							<div class="plyr__video-wrapper">
+								<div class="popedom">
+									<span class="img-box">
+										<img src="{:mac_url_img($obj.vod_pic)}">
+									</span>
+									<div class="video-tips">
+										<section class="text-center">
+											<p>提示：需要支付【{$obj.vod_points}】积分，一次支付，永久观看，不重复扣费，谢谢支持。</p>
+											{if condition="$user.group.group_id eq 1"}
+											<a class="vip-btn-big vip-btn madou-login">登录</a>
+											{else/}
+											<a href="javascript:;" onclick="MAC.User.BuyPopedom(this)" data-id="{$obj.vod_id}" data-sid="{$param.sid}" data-nid="{$param.nid}" data-mid="1" data-type="{if condition="$obj.player_info.flag eq 'play'"}4{else/}5{/if}" data-mid="1" class="vip-btn-big vip-btn">立即购买</a>
+											{/if}
+										</section>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<div class="mt-4">
+						<h1 class="text-base lg:text-lg text-nord6">{$obj.vod_name}</h1>
+						<div class="flex flex-wrap justify-center space-x-6 py-4 lg:py-8 rounded-md shadow-sm">
+							<button onclick="vod({$obj.vod_id})" type="button" class="inline-flex items-center whitespace-nowrap text-sm text-nord4 leading-4 font-medium focus:outline-none">
+								<svg class="mr-1 md:mr-2 h-3 w-3 xs:h-4 xs:w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+								</svg>
+								收藏
+							</button>
+							
+							<button id="share" data-clipboard-text="{if$maccms.aid==14}{$maccms.http_type}{$maccms.site_url}{:mac_url_vod_detail($obj)}?invite={$user.user_codes}{else}{$maccms.http_type}{$maccms.site_url}{:mac_url_vod_play($obj,['sid'=>$param['sid'],'nid'=>$param['nid']])}?invite={$user.user_codes}{/if} 我正在看《{$obj.vod_name}》，你也快来一起看吧！"type="button" class="inline-flex items-center whitespace-nowrap shadow-sm text-sm text-nord4 leading-4 font-medium focus:outline-none">
+								<svg class="mr-1 md:mr-2 h-3 w-3 xs:h-4 xs:w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+									<path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+								</svg>
+								分享
+							</button>
+						</div>
+					</div>
+					<div class="sm:mx-0 mb-8 rounded-0 sm:rounded-lg">
+						<div class="mb-4 border-b border-gray-700">
+							<nav class="-mb-px flex space-x-2 sm:space-x-3">
+								<a class="group inline-flex items-center whitespace-nowrap pb-4 px-2 border-b-2 border-transparent font-medium text-sm text-gray-500 border-red-400 text-red-400">
+									<svg class="hidden sm:block -ml-0.5 mr-2 h-5 w-5 text-gray-500 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+										<path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+									</svg>
+									<span>详情</span>
+								</a>
+							</nav>
+						</div>
+						<div>
+							<div>
+								<div>
+									<div class="mb-4">
+										<div class="mb-1 text-secondary break-all line-clamp-2">简介：{$obj.vod_blurb}</div>
+									</div>
+									<div class="space-y-2">
+										<div class="text-secondary">
+											<span>日期:</span>
+											<span class="font-medium">{$obj.vod_time|mac_friend_date}</span>
+										</div>
+										<div class="text-secondary">
+											<span>标签:</span>
+											{maccms:foreach name=":explode(',',$obj.vod_tag)"}
+											<a href="{:mac_url_type($obj,['tag'=>$vo,'id'=>$obj.type_id],'search')}" class="text-nord13 font-medium">{$vo}</a>
+											{/maccms:foreach}
+										</div>
+									</div>
+									
+									{if condition="$GLOBALS['config']['madou']['playlist']['state'] eq 1"}
+									<div class="clearfix" id="playlist" style="margin-left: -4px;margin-right: -4px;">
+										<div class="play-head clearfix">
+											<h4 class="play_title">播放列表</h4>
+											<div class="play-tips">
+												<marquee scrollamount="4" behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()">
+													<a class="play-notice">{$GLOBALS['config']['madou']['paly']['notice']}</a>
+												</marquee>
+											</div>
+											<a class="play-sort-btn" href="javascript:void(0)"><span>排序</span></a>
+										</div>
+										<div class="plays-from" id="plays">
+											<div class="clearfix">
+												{maccms:foreach name="obj.vod_play_list" id="vo"}
+												<a class="play-btn {if$vo.player_info.from==$obj['vod_play_list'][$param['sid']]['player_info']['from']} active{/if}" {if$vo.player_info.from==$obj['vod_play_list'][$param['sid']]['player_info']['from']}href="javascript:;" class="play-btn" {else}href="{:mac_url_vod_play($obj,['sid'=>$vo.sid,'nid'=>$param.nid])}" {/if}>
+													{$vo.player_info.show}
+												</a>
+												{/maccms:foreach}
+											</div>
+										</div>
+										<div id="play-list" class="play-box">
+											{maccms:foreach name="obj.vod_play_list" id="vo"}
+											<div id="playsx" class="play-tabs-box  {if condition=" $param.sid eq $key"}asc show{/if}">
+												<div class="ros">
+													<div class="play-list-wrap">
+														<ul class="play-plays-list play-sort-list play-list-hide-xs clearfix">
+															{maccms:foreach name="vo.urls" id="vo2" key="key2"}
+															<li class="play-col-xs-4 play-col-sm-2 play-li">
+																<a class="play-url {if condition=" $param.sid eq $vo.sid && $param.nid eq $vo2.nid"}active{/if}" href="{:mac_url_vod_play($obj,['sid'=>$vo.sid,'nid'=>$vo2.nid])}">{$vo2.name}</a>
+															</li>
+															{/maccms:foreach}
+														</ul>
+													</div>
+												</div>
+											</div>
+											{/maccms:foreach}
+										</div>
+									</div>
+									{/if}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="relative">
+						<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+							{maccms:vod num="8" type="current" order="desc" by="time" not="'.$obj['vod_id'].'"}
+							{include file="module/vodlist"}
+							{/maccms:vod}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{include file="system/footer"}
+		<script>
+			function vod(id) {
+				var user_id = "{$user.user_id}";
+				$.get("/index.php/user/ajax_ulog/?ac=set&mid=1&id=" + id + "&type=2", function(data) {
+					if (data.msg == "获取成功") {
+						layer.msg("已收藏,无需重复收藏！");
+					} else if (data.msg == "保存成功!") {
+						layer.msg("收藏成功");
+					} else if (user_id == "0") {
+						layer.msg('请先登录');
+					}
+				}, "json");
+			}
+		</script>
+		
+		<span style="display: none" class="mac_hits hits" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}{$obj.art_id}{$obj.topic_id}" data-type="hits"></span>
+		<span style="display: none" class="mac_hits hits_day" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}{$obj.art_id}{$obj.topic_id}" data-type="hits_day"></span>
+		<span style="display: none" class="mac_hits hits_week" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}{$obj.art_id}{$obj.topic_id}" data-type="hits_week"></span>
+		<span style="display: none" class="mac_hits hits_month" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}{$obj.art_id}{$obj.topic_id}" data-type="hits_month"></span>
+		<span style="display:none" class="mac_ulog_set" data-type="4" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}" data-sid="{$param.sid}" data-nid="{$param.nid}"></span>
+	</body>
+</html>
